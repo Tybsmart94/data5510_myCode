@@ -4,33 +4,25 @@ print("Welcome to BlackJack!")
 deck = DeckOfCards()
 deck.shuffle_deck()
 score = 0
-hand = []
-dealer_Hand = []
+dealer_Score = 0
 
 #Initial Deal
 card = deck.get_card()
-hand.append(card.val)
 card2 = deck.get_card()
-hand.append(card2.val)
 
 dealer = deck.get_card()
-dealer_Hand.append(dealer.val)
 dealer2 = deck.get_card()
-dealer_Hand.append(dealer2.val)
 
-
-print("Your Hand")
-print(f"{card}, {card2}")
-print(hand)
+print(f"Card number 1 is: {card}")
+print(f"Card number 2 is: {card2}")
 print()
 
-print("Dealer hand")
-print(f"{dealer}")
+dealer_Score += dealer.val
+dealer_Score += dealer2.val
 
 score += card.val
 score += card2.val
-print(f"Your score is {score}")
-print()
+print(f"Your total score is {score}")
 
 while score < 21:
     #Game loop
@@ -41,26 +33,58 @@ while score < 21:
         if score >= 11 and new_Card.val == 11:
             new_Card.val = 1
         print()
-        print(f"{card}, {card2}, {new_Card}")
+        print(f"Card number 3 is: {new_Card}")
         score += new_Card.val
-        hand.append(new_Card.val)
-        print(f"Your score is {score}")
-        print()
-        print(hand)
+        print(f"Your total score is {score}")
         print()
 
         if score < 21:
-            print(f"Your score is {score}")
             continue
         elif score > 21:
             print(f"Your score is {score}")
             print("YOU LOSE")
+            print()
             break
         else:
             print(f"Your score is {score}")
             print("BLACKJACK")
             break
     else:
-        print(f"{dealer}, {dealer2}")
-        dealer3 = deck.get_card()
-        dealer_Hand.append(dealer3.val)
+        print()
+        print("OKAY, dealers turn")
+        print()
+        break
+
+while dealer_Score < 21:
+    print(f"Dealer card number 1: {dealer}")
+    print(f"Dealer card number 2: {dealer2}")
+    dealer3 = deck.get_card()
+    dealer_Score += dealer3.val
+    print(f"Dealer card number 3: {dealer3}")
+    print(f"Dealer's score is {dealer_Score}")
+    print()
+
+    if dealer_Score < 21:
+        dealer4 = deck.get_card()
+        print(f"Dealer card number 4: {dealer4}")
+        dealer_Score += dealer4.val
+        print(f"Dealer's score is {dealer_Score}")
+        print()
+        if dealer_Score < 21 and dealer_Score > 17:
+            if score > dealer_Score:
+                print("YOU WIN because dealer went over you")
+                break
+            else:
+                print("You lose because dealer was better 2")
+                break
+        elif dealer_Score < 21 and dealer_Score < 17:
+            dealer5 = deck.get_card()
+            print(f"Dealer card number 5: {dealer5}")
+            dealer_Score += dealer5.val
+            print(f"Dealer's score is {dealer_Score}")
+        else:
+            print("Dealer loses because he did")
+            break
+    else:
+        print("Dealer busted")
+        break
