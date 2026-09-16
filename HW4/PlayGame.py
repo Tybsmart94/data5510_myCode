@@ -2,22 +2,26 @@ from DeckOfCards import *
 playing = True
 
 while playing == True:
-    #Welcomes player and initializes deck and scores
+    #Welcomes player and initializes deck
     print("Welcome to BlackJack!")
     print()
     deck = DeckOfCards()
+
+    #Prints unshuffled and shuffled decks
     print("Here is the deck:")
     deck.print_deck()
     print()
     deck.shuffle_deck()
     print("Here is the shuffled deck")
     deck.print_deck()
+
+    #initializes scores and busted statement
     print()
     score = 0
     dealer_Score = 0
     busted = False
 
-    #Initial Deal
+    #Initial Deals for player and dealer
     card = deck.get_card()
     card2 = deck.get_card()
 
@@ -35,6 +39,17 @@ while playing == True:
 
     score += card.val
     score += card2.val
+    #Ends game if dealer already has BlackJack
+    if dealer_Score == 21 and score != 21:
+        print("Dealer got blackjack, sorry loser")
+        #Restarts or ends loop
+        play_Again = input("Would you like to play again? (y/n): ")
+        if play_Again == 'y':
+            continue
+        else:
+            print("Thanks for playing!")
+            playing == False
+            break
     print(f"Your total score is {score}")
 
     #Players game loop
