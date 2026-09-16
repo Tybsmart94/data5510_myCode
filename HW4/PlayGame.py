@@ -65,12 +65,12 @@ while playing == True:
                 continue
             elif score > 21:
                 print(f"Your score is {score}")
-                print("YOU LOSE")
+                # print("YOU LOSE")
                 print()
                 busted = True
             elif score == 21:
                 print(f"Your score is {score}")
-                print("BLACKJACK")
+                # print("BLACKJACK")
                 break
         else:
             break
@@ -129,9 +129,9 @@ while playing == True:
             elif dealer_Score == 21 and score > 21:
                 print("DEALER GOT BLACKJACK, YOU BUSTED!")
             elif dealer_Score == 21 and score == 21:
-                print("Push")
+                print("YOU BOTH GOT BLACKJACK??? Crazy")
             else:
-                print("Dealer busted")
+                print("Dealer busted, you win")
                 break
     
     #Restarts or ends loop
