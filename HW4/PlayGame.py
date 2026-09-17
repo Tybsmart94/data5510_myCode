@@ -39,8 +39,22 @@ while playing == True:
 
     score += card.val
     score += card2.val
+
+    #Ends game if player gets blackjack
+    if score == 21 and dealer_Score != 21:
+        print("CONGRATS, you got blackjack")
+        #Restarts or ends loop
+        play_Again = input("Would you like to play again? (y/n): ")
+        if play_Again == 'y':
+            continue
+        else:
+            print("Thanks for playing!")
+            playing == False
+            break
+
     #Ends game if dealer already has BlackJack
     if dealer_Score == 21 and score != 21:
+        print(f"Dealers Cards: {dealer}, {dealer2}")
         print("Dealer got blackjack, sorry loser")
         #Restarts or ends loop
         play_Again = input("Would you like to play again? (y/n): ")
@@ -56,18 +70,19 @@ while playing == True:
     while busted == False:
         user_Input = input("Would you like to hit? (y/n): ")
 
+        #Hit game loop
         if user_Input == 'y':
             new_Card = deck.get_card()
             #Changes aces to ones if needed
-            if score >= 11 and card.val == 11:
+            if score >= 11 and card.val == 11 and score != 21:
                 # print(card.val, "This worked player 1")
                 card.val = 1
                 score -= 10
-            if score >= 11 and card2.val == 11:
+            if score >= 11 and card2.val == 11 and score != 21:
                 # print(card2.val, "This worked player 2")
                 card2.val = 1
                 score -= 10
-            if score >= 11 and new_Card.val == 11:
+            if score >= 11 and new_Card.val == 11 and score != 21:
                 # print(new_Card.val, "This worked player new")
                 new_Card.val = 1
             print()
@@ -90,6 +105,7 @@ while playing == True:
         else:
             break
 
+
     #Dealers game loop
     print()
     print("OKAY, dealers turn")
@@ -100,8 +116,10 @@ while playing == True:
     print()
     card_Num = 2
 
+    #Dealers hit loop
     while dealer_Score < 21:
         card_Num += 1
+
         #Just to make sure the dealer doesn't get more cards if it already won
         if busted == True and dealer_Score < 21:
             print("Dealer wins")
@@ -114,15 +132,15 @@ while playing == True:
             print(f"Dealer card number {card_Num}: {new_Dealer}")
             print()
             #To change aces to ones if needed
-            if dealer_Score >= 11 and dealer.val == 11:
+            if dealer_Score >= 11 and dealer.val == 11 and dealer_Score != 21:
                 # print(dealer.val, "This worked")
                 dealer.val = 1
                 dealer_Score -= 10
-            if dealer_Score >= 11 and dealer2.val == 11:
+            if dealer_Score >= 11 and dealer2.val == 11 and dealer_Score != 21:
                 # print(dealer2.val, "This worked 2")
                 dealer2.val = 1
                 dealer_Score -= 10
-            if dealer_Score >= 11 and new_Dealer.val == 11:
+            if dealer_Score >= 11 and new_Dealer.val == 11 and dealer_Score != 21:
                 # print(new_Dealer.val, "This worked new_Dealer")
                 new_Dealer.val = 1
             dealer_Score += new_Dealer.val
