@@ -1,11 +1,14 @@
+#Imports
 import requests
 import json
 import datetime
 
+#Gets the population file into this python file and cleaned
 states_file = open("/home/ubuntu/data5510_myCode/HW5/states.csv")
 states_pop = states_file.readlines()
 states_list = []
 
+#Cleans the data
 for lines in states_pop:
     lines = lines.rstrip("\n")
     lines = lines.split(",")
@@ -16,6 +19,7 @@ for lines in states_pop:
 
 # print(states_list)
 
+#Gets URL and sets up parameters to keep it to just Utah stats
 DATASET_ID = "pwn4-m3yp"
 BASE_URL = f"https://data.cdc.gov/resource/{DATASET_ID}.json"
 
@@ -31,7 +35,7 @@ print(dict_full)
 #Variables used in all to iterate through the states_pop list
 state_counter = 0
 tester = states_list[86]
-tester2 = states_list[87]
+tester2 = states_list[87] #This and line 37 are just for getting the UT part to work
 
 #Variables needed for getting the average
 weekly_cases = 0
@@ -45,7 +49,7 @@ counter = 0
 #Variables needed for getting the highest month
 highest_month = 0
 month_list = []
-month_counter = 1
+month_case_list = []
 
 print(f"State Name: {tester}")#{states_list[state_counter]}")
 
@@ -61,23 +65,23 @@ for i in dict_full:
         highest_date = i["end_date"]
     counter += 1
 
-for i in dict_full:
     #Get the highest month
-    date = i["end_date"]
-    int_date = int(date[5:7])
-    if int_date == month_counter:
-        highest_month += num_cases
-    month_list.append(highest_month)
-    month_counter += 1
-    if month_counter > 12:
-        month_counter = 1
-
+    months = i["start_date"]
+    month_list.append(months)
+    month_cases = i["new_cases"]
+    month_case_list.append(month_cases)
+    
 print(month_list)
+print(month_case_list)
+
+#Iterates through state_pop list for when that gets set up
 state_counter += 1    
 
+#Finalizes average
 avg_cases = weekly_cases/week_counter
-print(f"The total number of weekly cases is {round(avg_cases, 2)}")
-print(f"The date with the highest number of new Covid cases: {highest_date} ({max(case_list)})")
-print(f"Month and Year, with the highest new number of covid cases: ")
-print(f"Month and Year, with highest new number, percentage of population: {round((228454/tester2) * 100, 2)} ({tester2})")
 
+#Final output
+print(f"The average number of weekly cases is {round(avg_cases, 2)}")
+print(f"The date with the highest number of new Covid cases: {highest_date} ({max(case_list)})")
+print(f"Month and Year, with the highest new number of covid cases: ({max(month_list)})")
+print(f"Month and Year, with highest new number, percentage of population: {round((228454/tester2) * 100, 2)} ({tester2})")
