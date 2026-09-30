@@ -45,6 +45,7 @@ counter = 0
 #Variables needed for getting the highest month
 highest_month = 0
 month_list = []
+month_counter = 1
 
 print(f"State Name: {tester}")#{states_list[state_counter]}")
 
@@ -60,12 +61,18 @@ for i in dict_full:
         highest_date = i["end_date"]
     counter += 1
 
+for i in dict_full:
     #Get the highest month
     date = i["end_date"]
-    date = datetime.strptime(date_string, "%Y-%m-%d")
-    # if date.month == 1:
-    #     print("JANUARY")
+    int_date = int(date[5:7])
+    if int_date == month_counter:
+        highest_month += num_cases
+    month_list.append(highest_month)
+    month_counter += 1
+    if month_counter > 12:
+        month_counter = 1
 
+print(month_list)
 state_counter += 1    
 
 avg_cases = weekly_cases/week_counter
