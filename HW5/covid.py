@@ -27,61 +27,95 @@ params = {
     "$where": "state='UT' AND end_date >= '2020-01-01' AND end_date <= '2023-12-31'",
     "$order": "end_date ASC"
 }
-req = requests.get(BASE_URL, params=params)
+req = requests.get(BASE_URL)#, params=params)
 # print(req.text)
 dict_full = json.loads(req.text)
-print(dict_full)
+# print(dict_full)
 
 #Variables used in all to iterate through the states_pop list
-state_counter = 0
+state_counter = -2
 tester = states_list[86]
 tester2 = states_list[87] #This and line 37 are just for getting the UT part to work
 
-#Variables needed for getting the average
-weekly_cases = 0
-week_counter = 0
+for state in states_list:
+    #Iterates through state_pop list for when that gets set up
+    state_counter += 2  
+    if state_counter == 100:
+        print()
+        print("End of program")
+        break
 
-#Variables for getting the highest date
-case_list = []
-highest_date = ''
-counter = 0
+    curr_state = states_list[state_counter]
+    print(f"State Name: {curr_state}")
 
-#Variables needed for getting the highest month
-highest_month = 0
-month_list = []
-month_case_list = []
+    #Variables needed for getting the average
+    weekly_cases = 0
+    week_counter = 0
 
-print(f"State Name: {tester}")#{states_list[state_counter]}")
+    #Variables for getting the highest date
+    case_list = []
+    highest_date = ''
+    counter = 0
 
-for i in dict_full:
-    #Gets the total average
-    num_cases = float(i["new_cases"])
-    weekly_cases += num_cases
-    week_counter += 1
+    #Variables needed for getting the highest month
+    month_list = []
+    month_case_list = []
 
-    #Gets the highest date
-    case_list.append(num_cases)
-    if case_list[counter] == max(case_list):
-        highest_date = i["end_date"]
-    counter += 1
+    for i in dict_full:
+        state = i["state"]
+        if state == curr_state:
+            #Gets the total average
+            num_cases = float(i["new_cases"])
+            weekly_cases += num_cases
+            week_counter += 1
 
-    #Get the highest month
-    months = i["start_date"]
-    month_list.append(months)
-    month_cases = i["new_cases"]
-    month_case_list.append(month_cases)
-    
-print(month_list)
-print(month_case_list)
+            #Gets the highest date
+            case_list.append(num_cases)
+            if case_list[counter] == max(case_list):
+                highest_date = i["end_date"]
+            counter += 1
 
-#Iterates through state_pop list for when that gets set up
-state_counter += 1    
+            #Get the highest month
+            months = i["start_date"]
+            month_list.append(months)
+            month_cases = float(i["new_cases"])
+            month_case_list.append(month_cases)
 
-#Finalizes average
-avg_cases = weekly_cases/week_counter
+    #More variables I will need to get the highest month
+    total_month_list = []
+    current_month = [0][0:7]
+    total_month = 0
+    highest_month = ''
+    counter2 = 0
 
-#Final output
-print(f"The average number of weekly cases is {round(avg_cases, 2)}")
-print(f"The date with the highest number of new Covid cases: {highest_date} ({max(case_list)})")
-print(f"Month and Year, with the highest new number of covid cases: ({max(month_list)})")
-print(f"Month and Year, with highest new number, percentage of population: {round((228454/tester2) * 100, 2)} ({tester2})")
+    for i in range(len(month_list)):
+        month = month_list[i][0:7]
+        
+        if month == current_month:
+            total_month += month_case_list[i]
+        else:
+            total_month_list.append(total_month)
+            if total_month == max(total_month_list):
+                highest_month = month
+
+            current_month = month
+            total_month = month_case_list[i]
+            counter2 += 1
+        
+
+    total_month_list.append(total_month) 
+
+    #Finalizes average
+    if week_counter > 0:
+        avg_cases = weekly_cases/week_counter
+    else:
+        print("Not enough info")
+        print()
+        continue
+
+    #Final output
+    print(f"The average number of weekly cases is {round(avg_cases, 2)}")
+    print(f"The date with the highest number of new Covid cases: {highest_date} ({max(case_list)})")
+    print(f"Month and Year, with the highest new number of covid cases: {highest_month} ({max(total_month_list)})")
+    print(f"Month and Year, with highest new number, percentage of population: {round((max(total_month_list)/states_list[state_counter+1]) * 100, 2)} ({states_list[state_counter+1]})")
+    print()
