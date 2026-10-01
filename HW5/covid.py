@@ -24,7 +24,7 @@ BASE_URL = f"https://data.cdc.gov/resource/{DATASET_ID}.json"
 #Variables used in all to iterate through the states_pop list
 state_counter = -2
 
-#Variables to store all 50 state values for final summary
+#Variables to store state values for final summary
 highest_state = '' #So we can print the states out in the final summary
 lowest_state = ''
 saddeset_date = '' #So we can print the dates out in the final summary
@@ -33,14 +33,17 @@ highest_cases = '' #So we can print the cases out in the final summary
 lowest_cases = ''
 best_population = '' #So we can print the population out in the final summary
 worst_population = ''
-state_percentages = []
+state_percentages = [] #To make the max and min part easier lol
 
 
 for state in states_list:
     #Dictionary to dump into a json file
     state_dict = {"state_name" : '', "state_pop" : 0, "avg_cases" : 0, "highest_date" : '', "highest_cases" : 0, "highest_month" : '', "month_cases" : 0, "percentage" : 0}
-    #Iterates through state_pop list for when that gets set up
+
+    #Iterates through state_pop list
     state_counter += 2  
+
+    #Final summary
     if state_counter == 100:
         print("==================== SUMMARY ACROSS ALL STATES ====================")
         print("State with HIGHEST percentage of population during its highest month:")
@@ -50,6 +53,7 @@ for state in states_list:
         print(f"{lowest_state} - {min(state_percentages)} in {happiest_date} ({lowest_cases} cases; Population: {worst_population})")
         break
 
+    #Sets up parameters for the dict, current state, and makes the dictionary to get data from
     curr_state = states_list[state_counter]
     print(f"State Name: {curr_state}")
     params = {
@@ -68,10 +72,11 @@ for state in states_list:
     highest_date = ''
     counter = 0
 
-    #Variables needed for getting the highest month
+    #Lists needed for getting the highest month
     month_list = []
     month_case_list = []
 
+    #Main loop that gets us the info
     for i in dict_full:
         state = i["state"]
         if state == curr_state:
@@ -99,6 +104,7 @@ for state in states_list:
     highest_month = ''
     counter2 = 0
 
+    #Iterates through the lists above to get the highest month data
     for i in range(len(month_list)):
         month = month_list[i][0:7]
         
@@ -112,8 +118,6 @@ for state in states_list:
             current_month = month
             total_month = month_case_list[i]
             counter2 += 1
-        
-
     total_month_list.append(total_month) 
 
     #Finalizes average and percentage
