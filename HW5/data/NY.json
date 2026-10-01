@@ -1,0 +1,10 @@
+{
+    "state_name": "NY",
+    "state_pop": 20201249,
+    "avg_cases": 20647.65,
+    "highest_date": "2022-01-12T00:00:00.000",
+    "highest_cases": 226479.0,
+    "highest_month": "2022-02",
+    "month_cases": 497841.0,
+    "percentage": 2.46
+}
