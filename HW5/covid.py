@@ -13,7 +13,6 @@ for lines in states_pop:
     lines = lines.rstrip("\n")
     lines = lines.split(",")
     lines[1] = int(lines[1])
-    # print(lines)
     states_list.append(lines[0])
     states_list.append(lines[1])
 
@@ -78,24 +77,22 @@ for state in states_list:
 
     #Main loop that gets us the info
     for i in dict_full:
-        state = i["state"]
-        if state == curr_state:
-            #Gets the total average
-            num_cases = float(i["new_cases"])
-            weekly_cases += num_cases
-            week_counter += 1
+        #Gets the total average
+        num_cases = float(i["new_cases"])
+        weekly_cases += num_cases
+        week_counter += 1
 
-            #Gets the highest date
-            case_list.append(num_cases)
-            if case_list[counter] == max(case_list):
-                highest_date = i["end_date"]
-            counter += 1
+        #Gets the highest date
+        case_list.append(num_cases)
+        if case_list[counter] == max(case_list):
+            highest_date = i["end_date"]
+        counter += 1
 
-            #Get the highest month
-            months = i["start_date"]
-            month_list.append(months)
-            month_cases = float(i["new_cases"])
-            month_case_list.append(month_cases)
+        #Get the highest month
+        months = i["start_date"]
+        month_list.append(months)
+        month_cases = float(i["new_cases"])
+        month_case_list.append(month_cases)
 
     #More variables I will need to get the highest month
     total_month_list = []
