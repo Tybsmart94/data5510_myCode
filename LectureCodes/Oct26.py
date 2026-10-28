@@ -44,6 +44,23 @@ def insert(node, key):
 
 	# return the (unchanged) node pointer
 	return node
+
+def find(node, key):
+
+	# If the tree is empty, return a new node
+    if node == key:
+        return True
+    if node is None:
+        return False
+
+	# Otherwise recur down the tree
+    if key < node.key:
+        node.left = insert(node.left, key)
+    else:
+        node.right = insert(node.right, key)
+
+	# return the (unchanged) node pointer
+    return False
 	
 	
 # Task 1. Write a function to find the minimum value in the tree
@@ -61,7 +78,9 @@ def findMinRec(node):
     
 # Task 3. Write a findMaxRecursive
 def findMaxRec(node):
-    pass
+    if node.right == None:
+        return node
+    return findMaxRec(node.right)
 
 # print tree inorder
 def inorder(root):
@@ -141,6 +160,15 @@ def main():
     root = insert(root, 70)
     root = insert(root, 60)
     root = insert(root, 80)
+    root = insert(root, 3000)
+    root = insert(root, 100)
+    root = insert(root, 1500)
+    root = insert(root, 2400)
+
+
+    print("THIS ONE:", findMin(root).key)
+    print(findMinRec(root).key)
+    print(findMaxRec(root).key)
     
     # finding values in the tree
     # print(findKey(root, 80))
