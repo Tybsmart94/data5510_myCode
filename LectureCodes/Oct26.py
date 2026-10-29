@@ -183,24 +183,25 @@ def main():
     # Uncomment deleteNode calls after findMin is complete Task 1
     
     # # deleting 
-    print("\nDelete 20")
-    root = deleteNode(root, 20)
-    print("Inorder traversal of the modified tree")
-    inorder(root)
+    # print("\nDelete 20")
+    # root = deleteNode(root, 20)
+    # print("Inorder traversal of the modified tree")
+    # inorder(root)
     
-    print("\nDelete 30")
-    root = deleteNode(root, 30)
-    print("Inorder traversal of the modified tree")
-    inorder(root)
+    # print("\nDelete 30")
+    # root = deleteNode(root, 30)
+    # print("Inorder traversal of the modified tree")
+    # inorder(root)
     
-    print("\nDelete 50")
-    root = deleteNode(root, 50)
-    print("Inorder traversal of the modified tree")
-    inorder(root)
+    # print("\nDelete 50")
+    # root = deleteNode(root, 50)
+    # print("Inorder traversal of the modified tree")
+    # inorder(root)
     #########
     
     print()
     display(root)
+    print(find(root, 1500))
     
     
     tree2 = None
