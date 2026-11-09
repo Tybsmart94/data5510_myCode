@@ -1,0 +1,9 @@
+logan,smithfield,6
+smithfield,north_logan,3
+north_logan,mendon,10
+mendon,wellsville,5
+north_logan,logan,3
+logan,nibley,4
+nibley,hyrum,3
+hyrum,wellsville,7
+logan,wellsville,15
