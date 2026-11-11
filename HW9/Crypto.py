@@ -4,10 +4,15 @@
 
 import networkx
 import json
+import time
+from requests import get, post
 
 counter = 0
-ids_list = ["ripple", "cardano", "bitcoin-cash", "eos", "litecoin", "ethereum", "bitcoin"]
-currencies_list = ["xrp", "ada", "bch", "eos", "ltc", "eth", "btc"]
+##ids_list = ["ripple", "cardano", "bitcoin-cash", "eos", "litecoin", "ethereum", "bitcoin"]
+##currencies_list = ["xrp", "ada", "bch", "eos", "ltc", "eth", "btc"]
+#Shorter lists for testing so I don't hit rate limit
+ids_list = ["ethereum", "bitcoin"]
+currencies_list = ["eth", "btc"]
 url_list = []
 
 for i in ids_list:
@@ -16,4 +21,10 @@ for i in ids_list:
     if i == "ethereum":
         break
 
-print(url_list)
+for url in url_list:
+    try:
+        results = get(url)
+        json_results = results.json()
+        print(json_results)
+    except:
+        print("No values to get")
