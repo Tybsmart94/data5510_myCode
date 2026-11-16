@@ -47,13 +47,67 @@ g = nx.DiGraph()
 edges = []
 
 i = 0
-j = 0
 
 for row in rates:  
+    j = 0
     print(f"{currencies[i]} exchange rates")
     for value in row:
         print(f"to {currencies[j]} {row[j]}")
         j += 1
-    j = 0
     i += 1
     print()
+
+g = nx.DiGraph()
+edges = []
+i = 0
+for c1 in currencies:
+    j = 0
+    for c2 in currencies:
+        if c1 != c2:
+            edges.append((c1, c2, rates[i][j]))
+            print("adding edge: ", c1, c2, rates[i][j])
+        j +=1
+    i += 1
+g.add_weighted_edges_from(edges) 
+
+# print(g.nodes)
+
+exchange_rate_paths = nx.all_simple_paths(g, source="USD", target="EUR")
+
+greatest_path_to = 0.0
+path_weight_to = 1.0
+for path in exchange_rate_paths:
+    print("path: ", path)
+    i = 0
+    for i in range(len(path)-1):
+        print(path[i],path[i+1],end=" ")
+        print(g[path[i]] [path[i+1]] ['weight'])
+        path_weight_to *= g[path[i]] [path[i+1]] ['weight']
+        i += 1
+    print("Path_weight: ", path_weight)
+    if path_weight_to > greatest_path_to:
+        greatest_path_to = path_weight_to
+    path_weight_to = 1.0
+
+exchange_rate_paths = nx.all_simple_paths(g, source="EUR", target="USD")
+
+greatest_path_from = 1.0
+path_weight_from = 1.0
+for path in exchange_rate_paths:
+    print("path: ", path)
+    i = 0
+    for i in range(len(path)-1):
+        print(path[i],path[i+1],end=" ")
+        print(g[path[i]] [path[i+1]] ['weight'])
+        path_weight_from *= g[path[i]] [path[i+1]] ['weight']
+        i += 1
+    print("Path_weight: ", path_weight)
+    if path_weight_from > greatest_path_from:
+        greatest_path_from = path_weight_from
+    path_weight_from = 1.0
+
+greatest_cycle = greatest_path_from * greatest_path_to
+print("Greatest path to: ", greatest_path_to)
+print("Greatest path from: ", greatest_path_from)
+print("Greatest cycle: ", greatest_cycle)
+
